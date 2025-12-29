@@ -90,6 +90,12 @@
               <img id="cardImage" referrerpolicy="no-referrer" alt="">
               <p class="titleBig" id="cardName">—</p>
               <div class="hint" id="cardHint">Покемон или лекарство?</div>
+
+              <!-- Drug info: shown for drugs after answer (even if correct) -->
+              <div id="drugInfo" class="drugInfo" hidden>
+                <div class="drugInn muted" id="drugInn"></div>
+                <div class="drugSummary" id="drugSummary"></div>
+              </div>
             </div>
           </div>
 
@@ -103,7 +109,7 @@
           <div class="status" id="status"></div>
 
           <div class="footer">
-            <div>Покемоны: PokeAPI (official artwork). Лекарства: PubChem PUG REST (2D PNG).</div>
+            <div>Покемоны: PokeAPI (official artwork). Лекарства: локальный кэш + PubChem SVG (если есть CID).</div>
             <div>made for fun by <a href="https://t.me/epi_pharm" target="_blank" rel="noopener noreferrer">@epi_pharm</a></div>
           </div>
         </section>

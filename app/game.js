@@ -1,8 +1,10 @@
 import { CONFIG } from "./config.js";
 import { POKEMON } from "../data/pokemon.js";
-import { DRUGS } from "../data/drugs.js";
+// drugs.json грузим через fetch (совместимо с GitHub Pages)
 import { buildProfile } from "./profiles.js";
 import { $, pct, pctNum, normalizeNick, renderSegments } from "./ui.js";
+
+let DRUGS = [];
 
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -12,10 +14,19 @@ function shuffle(arr) {
   return arr;
 }
 
+async function loadDrugs() {
+  const url = new URL("../data/drugs.json", import.meta.url);
+  const r = await fetch(url, { cache: "no-cache" });
+  if (!r.ok) throw new Error(`Failed to load drugs.json: ${r.status}`);
+  const data = await r.json();
+  if (!Array.isArray(data)) throw new Error("drugs.json must be an array");
+  DRUGS = data;
+}
+
 function buildDeck(maxQ) {
   const pool = [
-    ...POKEMON.map((n) => ({ name: n, type: "pokemon" })),
-    ...DRUGS.map((n) => ({ name: n, type: "drug" })),
+    ...POKEMON.map((n) => ({ name: n, type: "pokemon", payload: null })),
+    ...DRUGS.map((d) => ({ name: d.brand, type: "drug", payload: d })),
   ];
   shuffle(pool);
   if (pool.length >= maxQ) return pool.slice(0, maxQ);
@@ -29,12 +40,6 @@ function withCacheBuster(url) {
   return url + sep + "t=" + Date.now();
 }
 
-function pubChem2DRecordPngByName(drugName, size = "500x500") {
-  return `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(
-    drugName
-  )}/record/PNG?record_type=2d&image_size=${encodeURIComponent(size)}`;
-}
-
 async function pokemonArtworkUrl(pokemonName) {
   const r = await fetch(
     `https://pokeapi.co/api/v2/pokemon/${encodeURIComponent(pokemonName.toLowerCase())}`
@@ -43,10 +48,25 @@ async function pokemonArtworkUrl(pokemonName) {
   const j = await r.json();
   return j?.sprites?.other?.["official-artwork"]?.front_default || "";
 }
+function pubchem2dPngByCid(cid, size = "500x500") {
+  return `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${encodeURIComponent(
+    String(cid)
+  )}/PNG?image_size=${encodeURIComponent(size)}`;
+}
 
 async function resolveImageUrl(item) {
-  if (item.type === "pokemon") return await pokemonArtworkUrl(item.name);
-  return pubChem2DRecordPngByName(item.name, "500x500");
+  if (item.type === "pokemon") {
+    return await pokemonArtworkUrl(item.name);
+  }
+
+  const d = item.payload;
+  if (!d) return "";
+
+  if (!d.pubchem_cid || d.drug_type !== "small_molecule") {
+    return "./assets/antibodies.png";
+  }
+
+  return pubchem2dPngByCid(d.pubchem_cid, "500x500");
 }
 
 function resetImage() {
@@ -56,6 +76,34 @@ function resetImage() {
   img.alt = "";
   img.onload = null;
   img.onerror = null;
+}
+
+function resetDrugInfo() {
+  const box = $("drugInfo");
+  if (!box) return;
+  box.hidden = true;
+  const inn = $("drugInn");
+  const sum = $("drugSummary");
+  if (inn) inn.textContent = "";
+  if (sum) sum.textContent = "";
+}
+
+function showDrugInfo(item) {
+  const box = $("drugInfo");
+  if (!box) return;
+
+  if (item.type !== "drug" || !item.payload) {
+    box.hidden = true;
+    return;
+  }
+
+  const d = item.payload;
+
+  $("drugInn").textContent = d.generic_inn ? `INN: ${d.generic_inn}` : "";
+  $("drugSummary").textContent = d.summary || "";
+
+  // показываем блок даже при правильном ответе; скрываем только если вообще нечего показать
+  box.hidden = !(d.generic_inn || d.summary);
 }
 
 async function revealImage(item) {
@@ -80,10 +128,18 @@ async function revealImage(item) {
   try {
     const url = await resolveImageUrl(item);
     if (!url) return false;
-    return await setAndShow(
-      withCacheBuster(url),
-      item.type === "pokemon" ? "Покемон" : "Структурная формула (PubChem)"
-    );
+
+    const alt =
+      item.type === "pokemon"
+        ? "Покемон"
+        : item.payload?.structure_svg_url
+          ? "Структурная формула"
+          : "Biologic / no structure";
+
+    const finalUrl =
+      url.includes("pubchem.ncbi.nlm.nih.gov/rest/pug/") ? url : withCacheBuster(url);
+
+    return await setAndShow(finalUrl, alt);
   } catch {
     return false;
   }
@@ -169,6 +225,7 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
     $("cardName").textContent = item.name;
     $("cardHint").textContent = "Покемон или лекарство?";
     resetImage();
+    resetDrugInfo();
     clearFeedbackClasses();
     showStatus("");
   }
@@ -181,6 +238,7 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
       $("cardName").textContent = "Done";
       $("cardHint").textContent = `Сыграно: ${answeredTotal()}. Можно Submit (если ≥ ${CONFIG.MIN_SUBMIT_Q}) или Restart.`;
       resetImage();
+      resetDrugInfo();
       clearFeedbackClasses();
       setButtonsEnabled();
       renderProgress();
@@ -196,6 +254,11 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
   }
 
   function startGame() {
+    if (!DRUGS.length) {
+      showStatus("⚠️ drugs.json не загрузился (проверь /data/drugs.json).");
+      return;
+    }
+
     state.phase = "game";
     state.mode = "question";
     state.maxQuestions = CONFIG.TOTAL_Q;
@@ -266,7 +329,9 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
     setButtonsEnabled();
     renderProgress();
 
+    // Картинка + drug info показываются ВСЕГДА после ответа (для drug-элементов)
     await revealImage(state.current);
+    showDrugInfo(state.current);
 
     $("cardHint").textContent = `Следующий через ${Math.round(CONFIG.AUTO_NEXT_MS / 1000)} сек…`;
     scheduleAutoNext();
@@ -287,6 +352,7 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
     state.mode = "feedback";
     clearFeedbackClasses();
     resetImage();
+    resetDrugInfo();
     showStatus("⏭️ Пропуск.");
     setButtonsEnabled();
     renderProgress();
@@ -367,10 +433,17 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
     });
   }
 
-  function init() {
+  async function init() {
     setView("welcome");
     setButtonsEnabled();
     renderProgress();
+
+    try {
+      await loadDrugs();
+    } catch (e) {
+      console.error(e);
+      showStatus("⚠️ Не удалось загрузить drugs.json. Проверь /data/drugs.json и путь.");
+    }
   }
 
   return {

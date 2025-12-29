@@ -1,5 +1,11 @@
 import { makeSupabase, fetchTop, insertEntry } from "./app/supabase.js";
-import { $, setView, openRulesModal, openLeaderboardModal, renderLeaderboardTbody } from "./app/ui.js";
+import {
+  $,
+  setView,
+  openRulesModal,
+  openLeaderboardModal,
+  renderLeaderboardTbody,
+} from "./app/ui.js";
 import { makeGameController } from "./app/game.js";
 import { makeSubmitModal } from "./app/modals.js";
 
@@ -18,7 +24,6 @@ async function loadTop10() {
       body.innerHTML = `<tr><td colspan="6" class="muted" style="padding: 14px 12px;">…</td></tr>`;
   };
 
-
   setLoading("lbMeta", "lbTableBody");
   setLoading("lbMeta2", "lbTableBody2");
 
@@ -27,11 +32,9 @@ async function loadTop10() {
     if ($("lbMeta")) $("lbMeta").textContent = `Ошибка: ${error.message}`;
     if ($("lbMeta2")) $("lbMeta2").textContent = `Ошибка: ${error.message}`;
     if ($("lbTableBody"))
-      $("lbTableBody").innerHTML =
-        `<tr><td colspan="6" class="muted" style="padding: 14px 12px;">Проверь RLS (SELECT для anon).</td></tr>`;
+      $("lbTableBody").innerHTML = `<tr><td colspan="6" class="muted" style="padding: 14px 12px;">Проверь RLS (SELECT для anon).</td></tr>`;
     if ($("lbTableBody2"))
-      $("lbTableBody2").innerHTML =
-        `<tr><td colspan="6" class="muted" style="padding: 14px 12px;">Проверь RLS (SELECT для anon).</td></tr>`;
+      $("lbTableBody2").innerHTML = `<tr><td colspan="6" class="muted" style="padding: 14px 12px;">Проверь RLS (SELECT для anon).</td></tr>`;
     return;
   }
 
@@ -69,7 +72,16 @@ $("refreshLbBtn2").addEventListener("click", loadTop10);
 
 $("playAgainBtn").addEventListener("click", () => setView(views, "welcome"));
 
-// init
+// init (важно: ждём init(), чтобы любые async-штуки не роняли остальной UI)
 setView(views, "welcome");
-game.init();
-loadTop10();
+
+(async () => {
+  try {
+    await game.init();
+  } catch (e) {
+    console.error(e);
+    // UI всё равно должен жить
+  } finally {
+    loadTop10();
+  }
+})();

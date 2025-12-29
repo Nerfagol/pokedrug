@@ -1,7 +1,7 @@
-# PokeDrug 🟡💊
+# PokeDrug ⚡or💊
 
 **PokeDrug** is a small interactive quiz-experiment:  
-can you tell a **Pokémon name** from a **real drug name**?
+can you tell a **Pokémon name** from a **brand drug name**?
 
 The project explores how similar fictional and scientific naming can sound —
 and how easily our intuition gets confused between imagination and reality.
@@ -10,7 +10,7 @@ and how easily our intuition gets confused between imagination and reality.
 
 ## 🎮 How it works
 - Each round shows a name
-- Choose: **🟡 Pokémon** or **💊 Drug**
+- Choose: **⚡ Pokémon** or **💊 Drug**
 - After answering, the corresponding image is revealed  
   (official Pokémon artwork or PubChem 2D structure)
 - Automatic transition after 2 seconds
@@ -24,7 +24,7 @@ and how easily our intuition gets confused between imagination and reality.
 - Session profile with a short sarcastic interpretation
 - Global Top-10 leaderboard
 
-Split format in the leaderboard: 💊82 / 🐭41 (percentages excluding skipped questions)
+Split format in the leaderboard: 💊82 / ⚡41 (percentages excluding skipped questions)
 
 ---
 
