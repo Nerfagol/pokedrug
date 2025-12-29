@@ -1,6 +1,6 @@
 import { CONFIG } from "./config.js";
 import { POKEMON } from "../data/pokemon.js";
-// drugs.json грузим через fetch (совместимо с GitHub Pages)
+// drugs.json is fetched dynamically (GitHub Pages friendly)
 import { buildProfile } from "./profiles.js";
 import { $, pct, pctNum, normalizeNick, renderSegments } from "./ui.js";
 
@@ -102,7 +102,7 @@ function showDrugInfo(item) {
   $("drugInn").textContent = d.generic_inn ? `INN: ${d.generic_inn}` : "";
   $("drugSummary").textContent = d.summary || "";
 
-  // показываем блок даже при правильном ответе; скрываем только если вообще нечего показать
+  // Show only when we have something meaningful.
   box.hidden = !(d.generic_inn || d.summary);
 }
 
@@ -133,7 +133,7 @@ async function revealImage(item) {
       item.type === "pokemon"
         ? "Покемон"
         : item.payload?.structure_svg_url
-          ? "Структурная формула"
+          ? "Химическая структура"
           : "Biologic / no structure";
 
     const finalUrl =
@@ -159,7 +159,6 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
     current: null,
     deck: [],
     locked: false,
-    autoNextTimer: null,
     lastSubmitAt: 0,
     outcomes: Array(CONFIG.TOTAL_Q).fill(""),
     byType: {
@@ -183,12 +182,38 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
     $("lbStatus").textContent = t || "";
   }
 
+  function updateButtonLayout() {
+    const isDone = state.phase === "game" && state.mode === "done";
+    const grid = document.querySelector(".btnGrid");
+    if (!grid) return;
+
+    if (isDone) {
+      grid.classList.add("single");
+      $("pokemonBtn").style.display = "none";
+      $("drugBtn").style.display = "none";
+      $("skipBtn").style.display = "none";
+      $("submitBtn").style.display = "inline-flex";
+      $("submitBtn").textContent = "Сохранить результат 💾";
+    } else {
+      grid.classList.remove("single");
+      $("pokemonBtn").style.display = "";
+      $("drugBtn").style.display = "";
+      $("skipBtn").style.display = "";
+      $("submitBtn").style.display = "";
+      $("submitBtn").textContent = "С меня хватит😵‍💫";
+    }
+  }
+
   function setButtonsEnabled() {
-    const isQuestion = state.phase === "game" && state.mode === "question";
+    const isGame = state.phase === "game";
+    const isQuestion = isGame && state.mode === "question";
+    const isFeedback = isGame && state.mode === "feedback";
+    const canNext = isQuestion || isFeedback;
     $("pokemonBtn").disabled = !isQuestion;
     $("drugBtn").disabled = !isQuestion;
-    $("skipBtn").disabled = !isQuestion;
-    $("submitBtn").disabled = !(state.phase === "game" && answeredTotal() >= CONFIG.MIN_SUBMIT_Q);
+    $("skipBtn").disabled = !canNext;
+    $("submitBtn").disabled = !(isGame && answeredTotal() >= CONFIG.MIN_SUBMIT_Q);
+    updateButtonLayout();
   }
 
   function renderStats() {
@@ -200,30 +225,23 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
 
   function renderProgress() {
     $("barLeft").textContent = `${state.indexShown} / ${state.maxQuestions}`;
-    $("barRight").textContent = `auto-next ${Math.round(CONFIG.AUTO_NEXT_MS / 1000)}s`;
+    $("barRight").textContent = "";
     renderSegments($("segments"), state.outcomes);
     renderStats();
   }
 
-  function clearAutoNext() {
-    if (state.autoNextTimer) {
-      clearTimeout(state.autoNextTimer);
-      state.autoNextTimer = null;
-    }
-  }
-
-  function scheduleAutoNext() {
-    clearAutoNext();
-    state.autoNextTimer = setTimeout(() => {
-      state.autoNextTimer = null;
-      if (state.phase === "game" && state.mode === "feedback") nextCard();
-    }, CONFIG.AUTO_NEXT_MS);
-  }
-
-  function showCard(item) {
+    function showCard(item) {
     state.current = item;
-    $("cardName").textContent = item.name;
-    $("cardHint").textContent = "Покемон или лекарство?";
+    const nameEl = $("cardName");
+    const hintEl = $("cardHint");
+    const diagnosisEl = $("diagnosis");
+    const diagnosisMessage = $("diagnosisMessage");
+    nameEl.textContent = item.name;
+    nameEl.style.display = "";
+    hintEl.textContent = "Покемон или лекарство?";
+    hintEl.style.display = "";
+    if (diagnosisEl) diagnosisEl.hidden = true;
+    if (diagnosisMessage) diagnosisMessage.textContent = "";
     resetImage();
     resetDrugInfo();
     clearFeedbackClasses();
@@ -231,21 +249,49 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
   }
 
   function nextCard() {
-    clearAutoNext();
-
     if (state.indexShown >= state.maxQuestions) {
-      state.mode = "question";
-      $("cardName").textContent = "Done";
-      $("cardHint").textContent = `Сыграно: ${answeredTotal()}. Можно Submit (если ≥ ${CONFIG.MIN_SUBMIT_Q}) или Restart.`;
+      state.mode = "done";
+      state.current = null;
+
+      const accDrug = pctNum(state.byType.drug.correct, state.byType.drug.total);
+      const accPokemon = pctNum(state.byType.pokemon.correct, state.byType.pokemon.total);
+      const profile = buildProfile({ accDrug, accPokemon });
+      const diagnosisText = profile.message || "—";
+
+      const nameEl = $("cardName");
+      const hintEl = $("cardHint");
+      const diagnosisEl = $("diagnosis");
+      const diagnosisMessage = $("diagnosisMessage");
+      const diagnosisDrugAcc = $("diagnosisDrugAcc");
+      const diagnosisPokemonAcc = $("diagnosisPokemonAcc");
+      const diagnosisDrugRaw = $("diagnosisDrugRaw");
+      const diagnosisPokemonRaw = $("diagnosisPokemonRaw");
+      nameEl.textContent = "Эксперимент завершён";
+      nameEl.style.display = "none";
+      hintEl.textContent =
+        "Зафиксируйте результат в таблице или воспроизведите эксперимент заново.";
+      hintEl.style.display = "";
+      if (diagnosisEl) diagnosisEl.hidden = false;
+      if (diagnosisMessage) diagnosisMessage.textContent = diagnosisText;
+      if (diagnosisDrugAcc) diagnosisDrugAcc.textContent = accDrug == null ? "—" : `${accDrug}%`;
+      if (diagnosisPokemonAcc) diagnosisPokemonAcc.textContent = accPokemon == null ? "—" : `${accPokemon}%`;
+      if (diagnosisDrugRaw)
+        diagnosisDrugRaw.textContent = `(${state.byType.drug.correct}/${state.byType.drug.total})`;
+      if (diagnosisPokemonRaw)
+        diagnosisPokemonRaw.textContent = `(${state.byType.pokemon.correct}/${state.byType.pokemon.total})`;
+
       resetImage();
+      const img = $("cardImage");
+      img.style.display = "block";
+      img.alt = "Эксперимент завершён";
+      img.src = "./assets/simpsons_drugs.gif";
       resetDrugInfo();
       clearFeedbackClasses();
       setButtonsEnabled();
       renderProgress();
       return;
     }
-
-    const item = state.deck[state.indexShown];
+const item = state.deck[state.indexShown];
     state.indexShown += 1;
     state.mode = "question";
     showCard(item);
@@ -255,7 +301,7 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
 
   function startGame() {
     if (!DRUGS.length) {
-      showStatus("⚠️ drugs.json не загрузился (проверь /data/drugs.json).");
+      showStatus("Ошибка: drugs.json не загрузился (проверьте /data/drugs.json).");
       return;
     }
 
@@ -286,7 +332,6 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
   }
 
   function restartGame() {
-    clearAutoNext();
     startGame();
   }
 
@@ -314,11 +359,11 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
       state.correct += 1;
       state.streak += 1;
       state.bestStreak = Math.max(state.bestStreak, state.streak);
-      showStatus("✅ Верно!");
+      showStatus("Ок. Верно!");
     } else {
       state.wrong += 1;
       state.streak = 0;
-      showStatus(`❌ Нет — это ${truth === "pokemon" ? "покемон" : "лекарство"}.`);
+      showStatus(`Нет. Это ${truth === "pokemon" ? "покемон" : "лекарство"}.`);
     }
 
     const idx = state.indexShown - 1;
@@ -329,49 +374,46 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
     setButtonsEnabled();
     renderProgress();
 
-    // Картинка + drug info показываются ВСЕГДА после ответа (для drug-элементов)
-    await revealImage(state.current);
-    showDrugInfo(state.current);
+    const item = state.current;
+    // Load image/info without blocking next card.
+    revealImage(item).then(() => {
+      if (state.current === item) showDrugInfo(item);
+    });
 
-    $("cardHint").textContent = `Следующий через ${Math.round(CONFIG.AUTO_NEXT_MS / 1000)} сек…`;
-    scheduleAutoNext();
-
+    $("cardHint").textContent = "Нажмите «Следующий».";
     state.locked = false;
   }
 
   function skip() {
-    if (state.phase !== "game" || state.mode !== "question" || state.locked) return;
+    if (state.phase !== "game" || state.locked || state.mode === "done") return;
     state.locked = true;
 
-    state.skipped += 1;
-    state.streak = 0;
+    if (state.mode === "feedback") {
+      state.locked = false;
+      nextCard();
+      return;
+    }
 
     const idx = state.indexShown - 1;
+    state.skipped += 1;
+    state.streak = 0;
     state.outcomes[idx] = "skip";
 
-    state.mode = "feedback";
     clearFeedbackClasses();
-    resetImage();
-    resetDrugInfo();
-    showStatus("⏭️ Пропуск.");
-    setButtonsEnabled();
-    renderProgress();
-
-    $("cardHint").textContent = `Следующий через ${Math.round(CONFIG.AUTO_NEXT_MS / 1000)} сек…`;
-    scheduleAutoNext();
+    nextCard();
 
     state.locked = false;
   }
 
   async function submitFlow() {
     if (answeredTotal() < CONFIG.MIN_SUBMIT_Q) {
-      showStatus(`Нужно минимум ${CONFIG.MIN_SUBMIT_Q} сыгранных вопросов.`);
+      showStatus(`Нужно минимум ${CONFIG.MIN_SUBMIT_Q} вопросов.`);
       return;
     }
 
     const now = Date.now();
     if (now - state.lastSubmitAt < 1500) {
-      showStatus("⏳ Подожди секунду и нажми Submit ещё раз.");
+      showStatus("Пожалуйста, подождите перед повторным Submit.");
       return;
     }
     state.lastSubmitAt = now;
@@ -413,11 +455,11 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
 
         const { error } = await insertEntry(payload);
         if (error) {
-          msgEl.textContent = `❌ Ошибка: ${error.message}`;
+          msgEl.textContent = `Ошибка: ${error.message}`;
           return;
         }
 
-        msgEl.textContent = "✅ Готово. Открываю лидерборд…";
+        msgEl.textContent = "Готово. Открываю лидерборд…";
         await loadTop10();
         setView("leaderboard");
         showLbStatus(
@@ -442,7 +484,7 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
       await loadDrugs();
     } catch (e) {
       console.error(e);
-      showStatus("⚠️ Не удалось загрузить drugs.json. Проверь /data/drugs.json и путь.");
+      showStatus("Не удалось загрузить drugs.json. Проверьте /data/drugs.json.");
     }
   }
 

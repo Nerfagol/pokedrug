@@ -3,7 +3,7 @@ import { CONFIG } from "./config.js";
 export const $ = (id) => document.getElementById(id);
 
 export function setView(views, name) {
-  for (const k of Object.keys(views)) views[k].hidden = (k !== name);
+  for (const k of Object.keys(views)) views[k].hidden = k !== name;
 }
 
 export function pct(n, d) {
@@ -42,15 +42,15 @@ export function renderSegments(containerEl, outcomes) {
 }
 
 export function renderSplit(accDrug, accPokemon) {
-  const d = accDrug == null ? "—" : String(accDrug);
-  const p = accPokemon == null ? "—" : String(accPokemon);
-  return `💊${d}/🐭${p}`;
+  const d = accDrug == null ? "-" : String(accDrug);
+  const p = accPokemon == null ? "-" : String(accPokemon);
+  return `💊${d}/⚡${p}`;
 }
 
 export function renderLeaderboardTbody(tbodyEl, metaEl, rows) {
   if (!rows || !rows.length) {
     tbodyEl.innerHTML =
-      `<tr><td colspan="6" class="muted" style="padding: 14px 12px;">Пока нет сабмитов.</td></tr>`;
+      `<tr><td colspan="6" class="muted" style="padding: 14px 12px;">Данных пока нет.</td></tr>`;
     if (metaEl) metaEl.textContent = "Пусто";
     return;
   }
@@ -89,7 +89,9 @@ export function openModal({ title, bodyHtml }) {
   document.body.appendChild(overlay);
 
   const close = () => overlay.remove();
-  overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) close();
+  });
   box.querySelector("#modalCloseBtn").addEventListener("click", close);
 
   return { overlay, box, close };
@@ -97,13 +99,13 @@ export function openModal({ title, bodyHtml }) {
 
 export function openRulesModal() {
   openModal({
-    title: "Rules",
+    title: "📃правила",
     bodyHtml: `
       <div class="muted">
         <ul>
-          <li>Выбирай: <b>🟡 покемон</b> или <b>💊 лекарство</b>.</li>
-          <li>После ответа: feedback + картинка → auto-next через <b>${Math.round(CONFIG.AUTO_NEXT_MS/1000)} сек</b>.</li>
-          <li><b>Submit</b> доступен после <b>${CONFIG.MIN_SUBMIT_Q}</b> сыгранных (answer/skip).</li>
+          <li>Выбирайте: <b>⚡ Покемон</b> или <b>💊 Лекарство</b>.</li>
+          <li>После ответа нажмите <b>Следующий</b>, чтобы перейти к новой карточке.</li>
+          <li><b>Submit</b> доступен после <b>${CONFIG.MIN_SUBMIT_Q}</b> вопросов (answer/skip).</li>
           <li>Leaderboard: <b>score → answered → accuracy</b>.</li>
         </ul>
       </div>
@@ -113,7 +115,7 @@ export function openRulesModal() {
 
 export async function openLeaderboardModal({ fetchTop }) {
   const { box } = openModal({
-    title: "Leaderboard (Top-10)",
+    title: "Таблица лидеров (Топ-10)",
     bodyHtml: `
       <div class="muted" id="lbModalMeta" style="margin-bottom:10px;"></div>
       <div class="tableWrap" style="margin-top: 0;">
@@ -122,11 +124,11 @@ export async function openLeaderboardModal({ fetchTop }) {
             <thead>
               <tr>
                 <th style="width:70px;">#</th>
-                <th>nickname</th>
-                <th style="width:120px;">score</th>
-                <th style="width:120px;">answered</th>
-                <th style="width:120px;">accuracy</th>
-                <th style="width:110px;">split</th>
+                <th>Псевдоним</th>
+                <th style="width:120px;">Очки</th>
+                <th style="width:120px;">Ответы</th>
+                <th style="width:140px;">Общая точность</th>
+                <th style="width:140px;">По категориям</th>
               </tr>
             </thead>
             <tbody id="lbModalBody">
@@ -135,7 +137,6 @@ export async function openLeaderboardModal({ fetchTop }) {
           </table>
         </div>
       </div>
-      <div class="muted" style="margin-top:10px;">split = 💊drug/🐭pokemon (проценты без учёта skip)</div>
     `,
   });
 
@@ -145,7 +146,7 @@ export async function openLeaderboardModal({ fetchTop }) {
   const { data, error } = await fetchTop();
   if (error) {
     meta.textContent = `Ошибка: ${error.message}`;
-    tbody.innerHTML = `<tr><td colspan="6" class="muted" style="padding: 14px 12px;">Не удалось загрузить данные.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" class="muted" style="padding: 14px 12px;">Не удалось загрузить таблицу.</td></tr>`;
     return;
   }
 

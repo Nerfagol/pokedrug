@@ -13,8 +13,8 @@
   <div class="wrap">
     <div class="topline">
       <img class="brandImg" src="assets/logo.svg" alt="PokeDrug" />
-      <button class="ghostBtn" id="lbBtnTop">Leaderboard</button>
-      <button class="ghostBtn" id="rulesBtnTop">Rules</button>
+      <button class="ghostBtn" id="lbBtnTop">🏆Таблица лидеров</button>
+      <button class="ghostBtn" id="rulesBtnTop">📃Правила</button>
     </div>
 
     <div class="card">
@@ -22,19 +22,31 @@
         <!-- Welcome -->
         <section class="view" id="welcomeView">
           <img class="heroImg" alt="Pokemon or Prescription Drug" src="assets/front_page.png">
-          <p class="sub" style="text-align:center; margin: 0 auto;">
-            Вопрос-игра: отличи <b>покемона</b> от <b>лекарства</b>. Показ картинки — <b>после ответа</b>.
-            Submit становится доступен после <b>20</b> сыгранных вопросов.
-          </p>
+          <div class="welcomeIntro">
+            <div class="introAccent"></div>
+            <div class="introCard">
+              <p class="sub lead">
+                <strong>Pokedrug</strong> — небольшой квиз на интуицию.
+              </p>
+              <p class="sub">
+                Иногда названия лекарств звучат как имена странных существ — проверьте, что вам ближе:
+                маркетинг фармпрепаратов или ловля покемонов.
+              </p>
+              <p class="sub">
+                Всего в игре 100 вопросов. Оценить результат и записать себя в таблицу лидеров можно после
+                <strong>20 вопросов</strong>. Удачи 🍀
+              </p>
+            </div>
+          </div>
 
           <div class="btnRow">
-            <button class="primary" id="startBtn">Start</button>
-            <button id="showRulesBtn">Rules</button>
+            <button class="primary" id="startBtn">Приступить</button>
+            <button id="showRulesBtn">📃Правила</button>
           </div>
 
           <div class="tableWrap" style="margin-top: 18px;">
             <div style="padding: 12px 12px; border-bottom:1px solid var(--border); display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap;">
-              <div style="font-weight:650; font-size:14px;">Global Top-10</div>
+              <div style="font-weight:650; font-size:14px;">Топ-10 игроков</div>
               <div class="muted" id="lbMeta"></div>
               <button class="ghostBtn" id="refreshLbBtn" style="padding:8px 10px; min-height: 36px;">Refresh</button>
             </div>
@@ -44,11 +56,11 @@
                 <thead>
                   <tr>
                     <th style="width:70px;">#</th>
-                    <th>nickname</th>
-                    <th style="width:120px;">score</th>
-                    <th style="width:120px;">answered</th>
-                    <th style="width:120px;">accuracy</th>
-                    <th style="width:120px;">split</th>
+                    <th>Псевдоним</th>
+                    <th style="width:120px;">Очки</th>
+                    <th style="width:120px;">Ответы</th>
+                    <th style="width:140px;">Общая точность</th>
+                    <th style="width:140px;">По категориям</th>
                   </tr>
                 </thead>
                 <tbody id="lbTableBody">
@@ -73,22 +85,38 @@
 
               <div class="barLabel">
                 <div id="barLeft" class="mono">0 / 100</div>
-                <div id="barRight" class="muted">auto-next 2s</div>
+                <div id="barRight" class="muted"></div>
               </div>
             </div>
           </div>
 
           <div class="sessionStats" aria-label="Session stats">
-            <div class="pill"><span class="dot ok"></span><span>correct:</span><span class="mono" id="stCorrect">0</span></div>
-            <div class="pill"><span class="dot bad"></span><span>wrong:</span><span class="mono" id="stWrong">0</span></div>
-            <div class="pill"><span class="dot sk"></span><span>skip:</span><span class="mono" id="stSkip">0</span></div>
-            <div class="pill"><span>accuracy:</span><span class="mono" id="stAcc">0%</span></div>
+            <div class="pill"><span class="dot ok"></span><span>Верно:</span><span class="mono" id="stCorrect">0</span></div>
+            <div class="pill"><span class="dot bad"></span><span>Ошибка:</span><span class="mono" id="stWrong">0</span></div>
+            <div class="pill"><span class="dot sk"></span><span>Пропущено:</span><span class="mono" id="stSkip">0</span></div>
+            <div class="pill"><span>Общая точность:</span><span class="mono" id="stAcc">0%</span></div>
           </div>
 
           <div class="prompt" style="margin-top: 14px;">
             <div>
               <img id="cardImage" referrerpolicy="no-referrer" alt="">
-              <p class="titleBig" id="cardName">—</p>
+              <div class="diagnosis" id="diagnosis" hidden>
+                <div class="diagnosisLabel">Диагноз по результатам</div>
+                <div class="diagnosisMessage" id="diagnosisMessage"></div>
+                <div class="diagnosisStats">
+                  <div class="diagnosisPill">
+                    <span>💊 Препараты:</span>
+                    <span class="mono" id="diagnosisDrugAcc">—</span>
+                    <span class="muted" id="diagnosisDrugRaw"></span>
+                  </div>
+                  <div class="diagnosisPill">
+                    <span>⚡ Покемоны:</span>
+                    <span class="mono" id="diagnosisPokemonAcc">—</span>
+                    <span class="muted" id="diagnosisPokemonRaw"></span>
+                  </div>
+                </div>
+              </div>
+              <p class="titleBig" id="cardName">-</p>
               <div class="hint" id="cardHint">Покемон или лекарство?</div>
 
               <!-- Drug info: shown for drugs after answer (even if correct) -->
@@ -100,16 +128,16 @@
           </div>
 
           <div class="btnGrid">
-            <button id="pokemonBtn" disabled>🟡 Покемон</button>
+            <button id="pokemonBtn" disabled>⚡ Покемон</button>
             <button id="drugBtn" disabled>💊 Лекарство</button>
-            <button id="skipBtn" disabled>Пропустить</button>
-            <button class="primary" id="submitBtn" disabled>Submit</button>
+            <button id="skipBtn" disabled>➡️ Следующий</button>
+            <button class="primary" id="submitBtn" disabled>С меня хватит😵‍💫</button>
           </div>
 
           <div class="status" id="status"></div>
 
           <div class="footer">
-            <div>Покемоны: PokeAPI (official artwork). Лекарства: локальный кэш + PubChem SVG (если есть CID).</div>
+            <div>Покемоны: PokeAPI (official artwork).<br> Препараты: PubChem API + AI-сгенерированные описания.</div>
             <div>made for fun by <a href="https://t.me/epi_pharm" target="_blank" rel="noopener noreferrer">@epi_pharm</a></div>
           </div>
         </section>
@@ -123,13 +151,13 @@
             </p>
             <div class="btnRow" style="margin-top: 12px;">
               <button class="primary" id="playAgainBtn">Play again</button>
-              <button id="leaderboardRulesBtn">Rules</button>
+              <button id="leaderboardRulesBtn">📃правила</button>
             </div>
           </div>
 
           <div class="tableWrap" style="margin-top: 16px;">
             <div style="padding: 12px 12px; border-bottom:1px solid var(--border); display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap;">
-              <div style="font-weight:650; font-size:14px;">Global Top-10</div>
+              <div style="font-weight:650; font-size:14px;">Топ-10 игроков</div>
               <div class="muted" id="lbMeta2"></div>
               <button class="ghostBtn" id="refreshLbBtn2" style="padding:8px 10px; min-height: 36px;">Refresh</button>
             </div>
@@ -138,11 +166,11 @@
                 <thead>
                   <tr>
                     <th style="width:70px;">#</th>
-                    <th>nickname</th>
-                    <th style="width:120px;">score</th>
-                    <th style="width:120px;">answered</th>
-                    <th style="width:120px;">accuracy</th>
-                    <th style="width:120px;">split</th>
+                    <th>Псевдоним</th>
+                    <th style="width:120px;">Очки</th>
+                    <th style="width:120px;">Ответы</th>
+                    <th style="width:140px;">Общая точность</th>
+                    <th style="width:140px;">По категориям</th>
                   </tr>
                 </thead>
                 <tbody id="lbTableBody2">

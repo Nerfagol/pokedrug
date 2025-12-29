@@ -6,20 +6,20 @@ export function makeSubmitModal() {
     const accPokemonStr = stats.accPokemon == null ? "—" : `${stats.accPokemon}%`;
 
     const { box, close } = openModal({
-      title: "Submit results",
+      title: "Результаты игры",
       bodyHtml: `
         <div class="muted" style="margin-bottom:8px;">Статистика сессии</div>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <div class="pill"><span class="dot ok"></span><span>correct:</span><span class="mono">${stats.correct}</span></div>
-          <div class="pill"><span class="dot bad"></span><span>wrong:</span><span class="mono">${stats.wrong}</span></div>
-          <div class="pill"><span class="dot sk"></span><span>skip:</span><span class="mono">${stats.skipped}</span></div>
-          <div class="pill"><span>accuracy:</span><span class="mono">${stats.accTotal}</span></div>
+          <div class="pill"><span class="dot ok"></span><span>Верно:</span><span class="mono">${stats.correct}</span></div>
+          <div class="pill"><span class="dot bad"></span><span>Ошибка:</span><span class="mono">${stats.wrong}</span></div>
+          <div class="pill"><span class="dot sk"></span><span>Пропущено:</span><span class="mono">${stats.skipped}</span></div>
+          <div class="pill"><span>Общая точность:</span><span class="mono">${stats.accTotal}</span></div>
         </div>
 
-        <div class="muted" style="margin:12px 0 8px;">Разбивка по типам (без учёта skip)</div>
+        <div class="muted" style="margin:12px 0 8px;">Разбивка по типам</div>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <div class="pill"><span>💊 drugs:</span><span class="mono">${accDrugStr}</span><span class="muted">(${stats.drugCorrect}/${stats.drugTotal})</span></div>
-          <div class="pill"><span>🐭 pokemon:</span><span class="mono">${accPokemonStr}</span><span class="muted">(${stats.pokemonCorrect}/${stats.pokemonTotal})</span></div>
+          <div class="pill"><span>💊 Препараты:</span><span class="mono">${accDrugStr}</span><span class="muted">(${stats.drugCorrect}/${stats.drugTotal})</span></div>
+          <div class="pill"><span>⚡ Покемоны:</span><span class="mono">${accPokemonStr}</span><span class="muted">(${stats.pokemonCorrect}/${stats.pokemonTotal})</span></div>
         </div>
 
         <div class="quote"><span class="muted">Диагноз по результатам:</span><br><b>${stats.profileMessage}</b></div>
