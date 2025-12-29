@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="ru">
 <head>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>PokeDrug — Покемон или лекарство?</title>
 
   <link rel="stylesheet" href="styles.css">
-
 </head>
 
 <body>
@@ -22,7 +22,6 @@
         <!-- Welcome -->
         <section class="view" id="welcomeView">
           <img class="heroImg" alt="Pokemon or Prescription Drug" src="assets/front_page.png">
-
           <p class="sub" style="text-align:center; margin: 0 auto;">
             Вопрос-игра: отличи <b>покемона</b> от <b>лекарства</b>. Показ картинки — <b>после ответа</b>.
             Submit становится доступен после <b>20</b> сыгранных вопросов.
@@ -36,7 +35,7 @@
           <div class="tableWrap" style="margin-top: 18px;">
             <div style="padding: 12px 12px; border-bottom:1px solid var(--border); display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap;">
               <div style="font-weight:650; font-size:14px;">Global Top-10</div>
-              <div class="muted" id="lbMeta">Загрузка…</div>
+              <div class="muted" id="lbMeta"></div>
               <button class="ghostBtn" id="refreshLbBtn" style="padding:8px 10px; min-height: 36px;">Refresh</button>
             </div>
 
@@ -95,7 +94,7 @@
           </div>
 
           <div class="btnGrid">
-            <button id="pokemonBtn" disabled>⚡️ Покемон</button>
+            <button id="pokemonBtn" disabled>🟡 Покемон</button>
             <button id="drugBtn" disabled>💊 Лекарство</button>
             <button id="skipBtn" disabled>Пропустить</button>
             <button class="primary" id="submitBtn" disabled>Submit</button>
@@ -125,7 +124,7 @@
           <div class="tableWrap" style="margin-top: 16px;">
             <div style="padding: 12px 12px; border-bottom:1px solid var(--border); display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap;">
               <div style="font-weight:650; font-size:14px;">Global Top-10</div>
-              <div class="muted" id="lbMeta2">Загрузка…</div>
+              <div class="muted" id="lbMeta2"></div>
               <button class="ghostBtn" id="refreshLbBtn2" style="padding:8px 10px; min-height: 36px;">Refresh</button>
             </div>
             <div style="overflow:auto;">
@@ -153,7 +152,6 @@
     </div>
   </div>
 
-  <script type="module" src="app.js"></script>
-
+  <script type="module" src="main.js"></script>
 </body>
 </html>
