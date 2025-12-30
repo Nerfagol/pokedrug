@@ -22,6 +22,15 @@ export function normalizeNick(raw) {
   return s.replace(/[^\p{L}\p{N}_-]/gu, "").slice(0, 20) || "anon";
 }
 
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 export function ensureSegments(containerEl) {
   if (!containerEl.dataset.ready) {
     containerEl.innerHTML = Array.from({ length: CONFIG.TOTAL_Q })
@@ -62,7 +71,7 @@ export function renderLeaderboardTbody(tbodyEl, metaEl, rows) {
       return `
         <tr>
           <td class="num">#${i + 1}</td>
-          <td>${e.nickname || "anon"}</td>
+          <td>${escapeHtml(e.nickname || "anon")}</td>
           <td class="num">${e.score}</td>
           <td class="num">${e.answered}</td>
           <td class="num">${acc}</td>
@@ -99,7 +108,7 @@ export function openModal({ title, bodyHtml }) {
 
 export function openRulesModal() {
   openModal({
-    title: "📃правила",
+    title: "📃Правила",
     bodyHtml: `
       <div class="muted">
         <ul>
