@@ -32,22 +32,16 @@ function escapeHtml(text) {
 }
 
 export function ensureSegments(containerEl) {
-  if (!containerEl.dataset.ready) {
-    containerEl.innerHTML = Array.from({ length: CONFIG.TOTAL_Q })
-      .map((_, i) => `<div class="seg" data-i="${i}"></div>`)
-      .join("");
-    containerEl.dataset.ready = "1";
-  }
+  if (!containerEl || containerEl.dataset.ready) return;
+  containerEl.innerHTML = "";
+  containerEl.dataset.ready = "1";
 }
 
-export function renderSegments(containerEl, outcomes) {
+export function renderSegments(containerEl, progress = 0) {
+  if (!containerEl) return;
   ensureSegments(containerEl);
-  const nodes = containerEl.querySelectorAll(".seg");
-  nodes.forEach((n, i) => {
-    n.classList.remove("correct", "wrong", "skip");
-    const o = outcomes[i];
-    if (o) n.classList.add(o);
-  });
+  const safe = Math.max(0, Math.min(1, progress));
+  containerEl.style.setProperty("--progress", `${safe * 100}%`);
 }
 
 export function renderSplit(accDrug, accPokemon) {
@@ -108,7 +102,7 @@ export function openModal({ title, bodyHtml }) {
 
 export function openRulesModal() {
   openModal({
-    title: "📃Правила",
+    title: "📃 Правила",
     bodyHtml: `
       <div class="muted">
         <ul>

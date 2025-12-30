@@ -61,8 +61,15 @@ bind("startBtn", game.startGame);
 bind("restartBtn", game.restartGame);
 bind("pokemonBtn", () => game.answer("pokemon"));
 bind("drugBtn", () => game.answer("drug"));
-bind("skipBtn", game.skip);
 bind("submitBtn", game.submitFlow);
+bind("promptCard", (e) => {
+  const sel = window.getSelection?.();
+  if (sel && !sel.isCollapsed) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const isLeft = (e.clientX - rect.left) < rect.width / 2;
+  if (isLeft) game.goPrev();
+  else game.goNext();
+});
 
 bind("showRulesBtn", openRulesModal);
 bind("rulesBtnTop", openRulesModal);

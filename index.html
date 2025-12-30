@@ -14,7 +14,7 @@
     <div class="topline">
       <img class="brandImg" src="assets/logo.svg" alt="PokeDrug" />
       <button class="ghostBtn" id="lbBtnTop">🏆Таблица лидеров</button>
-      <button class="ghostBtn" id="rulesBtnTop">📃Правила</button>
+      <button class="ghostBtn" id="rulesBtnTop">📃 Правила</button>
     </div>
 
     <div class="card">
@@ -26,11 +26,11 @@
             <div class="introAccent"></div>
             <div class="introCard">
               <p class="sub lead">
-                <strong>Pokedrug</strong> — небольшой квиз на интуицию.
+                <strong>PokeDrug</strong> — небольшой квиз на интуицию.
               </p>
               <p class="sub">
                 Иногда названия лекарств звучат как имена странных существ — проверьте, что вам ближе:
-                маркетинг фармпрепаратов или ловля покемонов.
+                маркетинг фармпрепаратов или ловля покемонов. За основу взяты реальные препараты, присутствующие на рынке СНГ.
               </p>
               <p class="sub">
                 Всего в игре 100 вопросов. Оценить результат и записать себя в таблицу лидеров можно после
@@ -96,7 +96,7 @@
             <div class="pill"><span>Общая точность:</span><span class="mono" id="stAcc">0%</span></div>
           </div>
 
-          <div class="prompt" style="margin-top: 14px;">
+          <div class="prompt" id="promptCard" style="margin-top: 14px;">
             <div>
               <img id="cardImage" referrerpolicy="no-referrer" alt="">
               <div class="diagnosis" id="diagnosis" hidden>
@@ -124,20 +124,25 @@
                 <div class="drugSummary" id="drugSummary"></div>
               </div>
             </div>
+            <div class="navHint navHintLeft" aria-hidden="true">&lsaquo;</div>
+            <div class="navHint navHintRight" aria-hidden="true">&rsaquo;</div>
           </div>
 
           <div class="btnGrid">
-            <button id="pokemonBtn" disabled>⚡ Покемон</button>
-            <button id="drugBtn" disabled>💊 Лекарство</button>
-            <button id="skipBtn" disabled>➡️ Следующий</button>
-            <button class="primary" id="submitBtn" disabled>С меня хватит😵‍💫</button>
+            <div class="btnRowAnswers">
+              <button id="pokemonBtn" disabled>⚡ Покемон</button>
+              <button id="drugBtn" disabled>💊 Лекарство</button>
+            </div>
+            <div class="btnRowGiveUp">
+              <button class="primary" id="submitBtn" disabled>С меня хватит😵‍💫</button>
+            </div>
           </div>
 
           <div class="status" id="status"></div>
 
-          <div class="footer">
-            <div>Покемоны: PokeAPI (official artwork).<br> Препараты: PubChem API + AI-сгенерированные описания.</div>
-            <div>made for fun by <a href="https://t.me/epi_pharm" target="_blank" rel="noopener noreferrer">@epi_pharm</a></div>
+                    <div class="footer">
+            <div>Источники изображений: PokeAPI и PubChem. Описание препаратов — генерация ИИ.</div>
+            <div>made for fun by <a href="https://t.me/epi_pharm" target="_blank" rel="noopener noreferrer">@επ.Pharm</a></div>
           </div>
         </section>
 

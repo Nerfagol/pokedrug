@@ -24,14 +24,14 @@ export function makeSubmitModal() {
 
         <div class="quote"><span class="muted">Диагноз по результатам:</span><br><b>${stats.profileMessage}</b></div>
 
-        <div class="muted" style="margin-top:12px;">Введите никнейм для лидерборда (до 20 символов).</div>
+        <div class="muted" style="margin-top:12px;">Введите псевдоним для лидерборда (до 20 символов).</div>
         <div class="field">
-          <label for="nickInput">Nickname</label>
+          <label for="nickInput">Псевдоним</label>
           <input id="nickInput" type="text" maxlength="20" placeholder="EAP" autocomplete="nickname" />
         </div>
         <div class="btnRow" style="justify-content:flex-end; margin-top: 12px;">
-          <button id="cancelBtn">Cancel</button>
-          <button id="okBtn" class="primary">Submit</button>
+          <button id="cancelBtn">Отмена</button>
+          <button id="okBtn" class="primary">Отправить</button>
         </div>
         <div id="modalMsg" class="muted" style="margin-top:10px; min-height:18px;"></div>
       `,

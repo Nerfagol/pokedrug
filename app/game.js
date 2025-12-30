@@ -155,6 +155,7 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
     mode: "question",
     maxQuestions: CONFIG.TOTAL_Q,
     indexShown: 0,
+    viewIndex: 0,
     correct: 0,
     wrong: 0,
     skipped: 0,
@@ -165,6 +166,7 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
     locked: false,
     lastSubmitAt: 0,
     outcomes: Array(CONFIG.TOTAL_Q).fill(""),
+    answers: Array(CONFIG.TOTAL_Q).fill(null),
     byType: {
       pokemon: { correct: 0, total: 0 },
       drug: { correct: 0, total: 0 },
@@ -191,20 +193,29 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
     const grid = document.querySelector(".btnGrid");
     if (!grid) return;
 
+    const pokemonBtn = $("pokemonBtn");
+    const drugBtn = $("drugBtn");
+    const skipBtn = $("skipBtn");
+    const submitBtn = $("submitBtn");
+
     if (isDone) {
       grid.classList.add("single");
-      $("pokemonBtn").style.display = "none";
-      $("drugBtn").style.display = "none";
-      $("skipBtn").style.display = "none";
-      $("submitBtn").style.display = "inline-flex";
-      $("submitBtn").textContent = "Сохранить результат 💾";
+      const answersRow = document.querySelector(".btnRowAnswers");
+      if (answersRow) answersRow.style.display = "none";
+      if (skipBtn) skipBtn.style.display = "none";
+      if (submitBtn) {
+        submitBtn.style.display = "inline-flex";
+        submitBtn.textContent = "Сохранить результат 💾";
+      }
     } else {
       grid.classList.remove("single");
-      $("pokemonBtn").style.display = "";
-      $("drugBtn").style.display = "";
-      $("skipBtn").style.display = "";
-      $("submitBtn").style.display = "";
-      $("submitBtn").textContent = "С меня хватит😵‍💫";
+      const answersRow = document.querySelector(".btnRowAnswers");
+      if (answersRow) answersRow.style.display = "";
+      if (skipBtn) skipBtn.style.display = "";
+      if (submitBtn) {
+        submitBtn.style.display = "";
+        submitBtn.textContent = "С меня хватит😵‍💫";
+      }
     }
   }
 
@@ -212,11 +223,16 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
     const isGame = state.phase === "game";
     const isQuestion = isGame && state.mode === "question";
     const isFeedback = isGame && state.mode === "feedback";
-    const canNext = isQuestion || isFeedback;
-    $("pokemonBtn").disabled = !isQuestion;
-    $("drugBtn").disabled = !isQuestion;
-    $("skipBtn").disabled = !canNext;
-    $("submitBtn").disabled = !(isGame && answeredTotal() >= CONFIG.MIN_SUBMIT_Q);
+    const isReview = isGame && state.mode === "review";
+    const canNext = isQuestion || isFeedback || isReview;
+    const pokemonBtn = $("pokemonBtn");
+    const drugBtn = $("drugBtn");
+    const skipBtn = $("skipBtn");
+    const submitBtn = $("submitBtn");
+    if (pokemonBtn) pokemonBtn.disabled = !isQuestion;
+    if (drugBtn) drugBtn.disabled = !isQuestion;
+    if (skipBtn) skipBtn.disabled = !canNext;
+    if (submitBtn) submitBtn.disabled = !(isGame && answeredTotal() >= CONFIG.MIN_SUBMIT_Q);
     updateButtonLayout();
   }
 
@@ -230,7 +246,9 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
   function renderProgress() {
     $("barLeft").textContent = `${state.indexShown} / ${state.maxQuestions}`;
     $("barRight").textContent = "";
-    renderSegments($("segments"), state.outcomes);
+    const segmentsEl = $("segments");
+    const progress = state.maxQuestions ? state.indexShown / state.maxQuestions : 0;
+    renderSegments(segmentsEl, progress);
     renderStats();
   }
 
@@ -252,55 +270,113 @@ export function makeGameController({ setView, loadTop10, openSubmitModal, insert
     showStatus("");
   }
 
-  function nextCard() {
+  function showReview(index) {
+    const item = state.deck[index];
+    if (!item) return;
+    state.viewIndex = index;
+    showCard(item);
+
+    const ans = state.answers[index];
+    if (ans) {
+      state.mode = "review";
+      if (ans.outcome === "skip") {
+        showStatus("Пропущено.");
+      } else {
+        const truth = item.type;
+        const correct = ans.outcome === "correct";
+        markFeedback(correct, truth, ans.choice);
+        showStatus(correct ? "Ок. Верно!" : `Нет. Это ${truth === "pokemon" ? "покемон" : "лекарство"}.`);
+      }
+      $("cardHint").textContent = "";
+      revealImage(item).then(() => {
+        if (state.current === item) showDrugInfo(item);
+      });
+    } else {
+      state.mode = "question";
+      showStatus("");
+      $("cardHint").textContent = "Покемон или лекарство?";
+    }
+    setButtonsEnabled();
+    renderProgress();
+  }
+
+  function showDone() {
+    state.mode = "done";
+    state.current = null;
+    state.viewIndex = state.maxQuestions;
+    showStatus("");
+
+    const accDrug = pctNum(state.byType.drug.correct, state.byType.drug.total);
+    const accPokemon = pctNum(state.byType.pokemon.correct, state.byType.pokemon.total);
+    const profile = buildProfile({ accDrug, accPokemon });
+    const diagnosisText = profile.message || "-";
+
+    const nameEl = $("cardName");
+    const hintEl = $("cardHint");
+    const diagnosisEl = $("diagnosis");
+    const diagnosisMessage = $("diagnosisMessage");
+    const diagnosisDrugAcc = $("diagnosisDrugAcc");
+    const diagnosisPokemonAcc = $("diagnosisPokemonAcc");
+    const diagnosisDrugRaw = $("diagnosisDrugRaw");
+    const diagnosisPokemonRaw = $("diagnosisPokemonRaw");
+    nameEl.textContent = "Эксперимент завершён";
+    nameEl.style.display = "none";
+    hintEl.textContent =
+      "Зафиксируйте результат в таблице или воспроизведите эксперимент заново.";
+    hintEl.style.display = "";
+    if (diagnosisEl) diagnosisEl.hidden = false;
+    if (diagnosisMessage) diagnosisMessage.textContent = diagnosisText;
+    if (diagnosisDrugAcc) diagnosisDrugAcc.textContent = accDrug == null ? "-" : `${accDrug}%`;
+    if (diagnosisPokemonAcc) diagnosisPokemonAcc.textContent = accPokemon == null ? "-" : `${accPokemon}%`;
+    if (diagnosisDrugRaw)
+      diagnosisDrugRaw.textContent = `(${state.byType.drug.correct}/${state.byType.drug.total})`;
+    if (diagnosisPokemonRaw)
+      diagnosisPokemonRaw.textContent = `(${state.byType.pokemon.correct}/${state.byType.pokemon.total})`;
+
+    resetImage();
+    const img = $("cardImage");
+    img.style.display = "block";
+    img.alt = "Эксперимент завершён";
+    img.src = "./assets/simpsons_drugs.gif";
+    resetDrugInfo();
+    clearFeedbackClasses();
+    setButtonsEnabled();
+    renderProgress();
+  }
+
+  function showNewQuestion() {
     if (state.indexShown >= state.maxQuestions) {
-      state.mode = "done";
-      state.current = null;
-
-      const accDrug = pctNum(state.byType.drug.correct, state.byType.drug.total);
-      const accPokemon = pctNum(state.byType.pokemon.correct, state.byType.pokemon.total);
-      const profile = buildProfile({ accDrug, accPokemon });
-      const diagnosisText = profile.message || "—";
-
-      const nameEl = $("cardName");
-      const hintEl = $("cardHint");
-      const diagnosisEl = $("diagnosis");
-      const diagnosisMessage = $("diagnosisMessage");
-      const diagnosisDrugAcc = $("diagnosisDrugAcc");
-      const diagnosisPokemonAcc = $("diagnosisPokemonAcc");
-      const diagnosisDrugRaw = $("diagnosisDrugRaw");
-      const diagnosisPokemonRaw = $("diagnosisPokemonRaw");
-      nameEl.textContent = "Эксперимент завершён";
-      nameEl.style.display = "none";
-      hintEl.textContent =
-        "Зафиксируйте результат в таблице или воспроизведите эксперимент заново.";
-      hintEl.style.display = "";
-      if (diagnosisEl) diagnosisEl.hidden = false;
-      if (diagnosisMessage) diagnosisMessage.textContent = diagnosisText;
-      if (diagnosisDrugAcc) diagnosisDrugAcc.textContent = accDrug == null ? "—" : `${accDrug}%`;
-      if (diagnosisPokemonAcc) diagnosisPokemonAcc.textContent = accPokemon == null ? "—" : `${accPokemon}%`;
-      if (diagnosisDrugRaw)
-        diagnosisDrugRaw.textContent = `(${state.byType.drug.correct}/${state.byType.drug.total})`;
-      if (diagnosisPokemonRaw)
-        diagnosisPokemonRaw.textContent = `(${state.byType.pokemon.correct}/${state.byType.pokemon.total})`;
-
-      resetImage();
-      const img = $("cardImage");
-      img.style.display = "block";
-      img.alt = "Эксперимент завершён";
-      img.src = "./assets/simpsons_drugs.gif";
-      resetDrugInfo();
-      clearFeedbackClasses();
-      setButtonsEnabled();
-      renderProgress();
+      showDone();
       return;
     }
-const item = state.deck[state.indexShown];
+    const item = state.deck[state.indexShown];
+    state.viewIndex = state.indexShown;
     state.indexShown += 1;
     state.mode = "question";
     showCard(item);
     setButtonsEnabled();
     renderProgress();
+  }
+
+  function goPrev() {
+    if (state.phase !== "game") return;
+    if (state.viewIndex <= 0) return;
+    if (state.mode === "done") {
+      showReview(state.maxQuestions - 1);
+      return;
+    }
+    showReview(state.viewIndex - 1);
+  }
+
+  function goNext() {
+    if (state.phase !== "game" || state.mode === "done") return;
+    if (state.viewIndex + 1 < state.indexShown) {
+      showReview(state.viewIndex + 1);
+      return;
+    }
+    if (state.viewIndex + 1 === state.indexShown) {
+      showNewQuestion();
+    }
   }
 
   function startGame() {
@@ -314,12 +390,14 @@ const item = state.deck[state.indexShown];
     state.maxQuestions = CONFIG.TOTAL_Q;
 
     state.indexShown = 0;
+    state.viewIndex = 0;
     state.correct = 0;
     state.wrong = 0;
     state.skipped = 0;
     state.streak = 0;
     state.bestStreak = 0;
     state.outcomes = Array(CONFIG.TOTAL_Q).fill("");
+    state.answers = Array(CONFIG.TOTAL_Q).fill(null);
     state.byType = {
       pokemon: { correct: 0, total: 0 },
       drug: { correct: 0, total: 0 },
@@ -332,7 +410,7 @@ const item = state.deck[state.indexShown];
     setView("game");
     setButtonsEnabled();
     renderProgress();
-    nextCard();
+    showNewQuestion();
   }
 
   function restartGame() {
@@ -351,6 +429,7 @@ const item = state.deck[state.indexShown];
   async function answer(choiceType) {
     if (state.phase !== "game" || state.mode !== "question" || state.locked) return;
     if (!state.current) return;
+    if (state.answers[state.viewIndex]) return;
     state.locked = true;
 
     const truth = state.current.type;
@@ -370,8 +449,9 @@ const item = state.deck[state.indexShown];
       showStatus(`Нет. Это ${truth === "pokemon" ? "покемон" : "лекарство"}.`);
     }
 
-    const idx = state.indexShown - 1;
+    const idx = state.viewIndex;
     state.outcomes[idx] = ok ? "correct" : "wrong";
+    state.answers[idx] = { outcome: ok ? "correct" : "wrong", choice: choiceType };
 
     state.mode = "feedback";
     markFeedback(ok, truth, choiceType);
@@ -384,17 +464,15 @@ const item = state.deck[state.indexShown];
       if (state.current === item) showDrugInfo(item);
     });
 
-    $("cardHint").textContent = "Нажмите «Следующий».";
+      $("cardHint").textContent = "";
     state.locked = false;
   }
 
   function skip() {
-    if (state.phase !== "game" || state.locked || state.mode === "done") return;
-    state.locked = true;
+    if (state.phase !== "game" || state.mode === "done") return;
 
-    if (state.mode === "feedback") {
-      state.locked = false;
-      nextCard();
+    if (state.mode === "feedback" || state.mode === "review") {
+      goNext();
       return;
     }
 
@@ -402,11 +480,10 @@ const item = state.deck[state.indexShown];
     state.skipped += 1;
     state.streak = 0;
     state.outcomes[idx] = "skip";
+    state.answers[idx] = { outcome: "skip" };
 
     clearFeedbackClasses();
-    nextCard();
-
-    state.locked = false;
+    goNext();
   }
 
   async function submitFlow() {
@@ -498,6 +575,8 @@ const item = state.deck[state.indexShown];
     restartGame,
     answer,
     skip,
+    goPrev,
+    goNext,
     submitFlow,
   };
 }
