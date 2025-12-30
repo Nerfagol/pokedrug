@@ -62,7 +62,11 @@ async function resolveImageUrl(item) {
   const d = item.payload;
   if (!d) return "";
 
-  if (!d.pubchem_cid || d.drug_type !== "small_molecule") {
+  if (!d.pubchem_cid) {
+    return `./assets/${d.structure_asset || "no_data.png"}`;
+  }
+
+  if (d.drug_type !== "small_molecule") {
     return "./assets/antibodies.png";
   }
 
@@ -132,7 +136,7 @@ async function revealImage(item) {
     const alt =
       item.type === "pokemon"
         ? "Покемон"
-        : item.payload?.structure_svg_url
+        : item.payload?.structure_asset || item.payload?.pubchem_cid
           ? "Химическая структура"
           : "Biologic / no structure";
 

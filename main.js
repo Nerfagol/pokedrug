@@ -52,25 +52,30 @@ const game = makeGameController({
 });
 
 // Wire up
-$("startBtn").addEventListener("click", game.startGame);
-$("restartBtn").addEventListener("click", game.restartGame);
-$("pokemonBtn").addEventListener("click", () => game.answer("pokemon"));
-$("drugBtn").addEventListener("click", () => game.answer("drug"));
-$("skipBtn").addEventListener("click", game.skip);
-$("submitBtn").addEventListener("click", game.submitFlow);
+const bind = (id, handler) => {
+  const el = $(id);
+  if (el) el.addEventListener("click", handler);
+};
 
-$("showRulesBtn").addEventListener("click", openRulesModal);
-$("rulesBtnTop").addEventListener("click", openRulesModal);
-$("leaderboardRulesBtn").addEventListener("click", openRulesModal);
+bind("startBtn", game.startGame);
+bind("restartBtn", game.restartGame);
+bind("pokemonBtn", () => game.answer("pokemon"));
+bind("drugBtn", () => game.answer("drug"));
+bind("skipBtn", game.skip);
+bind("submitBtn", game.submitFlow);
 
-$("lbBtnTop").addEventListener("click", () =>
+bind("showRulesBtn", openRulesModal);
+bind("rulesBtnTop", openRulesModal);
+bind("leaderboardRulesBtn", openRulesModal);
+
+bind("lbBtnTop", () =>
   openLeaderboardModal({ fetchTop: () => fetchTop(supabase, 10) })
 );
 
-$("refreshLbBtn").addEventListener("click", loadTop10);
-$("refreshLbBtn2").addEventListener("click", loadTop10);
+bind("refreshLbBtn", loadTop10);
+bind("refreshLbBtn2", loadTop10);
 
-$("playAgainBtn").addEventListener("click", () => setView(views, "welcome"));
+bind("playAgainBtn", () => setView(views, "welcome"));
 
 // init (важно: ждём init(), чтобы любые async-штуки не роняли остальной UI)
 setView(views, "welcome");

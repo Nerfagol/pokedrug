@@ -20,8 +20,16 @@ export function buildProfile({ accDrug, accPokemon }) {
     return { key: "PERFECT_PERFECT", message: pick(PROFILE_MESSAGES["PERFECT_PERFECT"]) };
   }
 
-  const dk = bucketPercent(d);
-  const pk = bucketPercent(p);
+  let dk = bucketPercent(d);
+  let pk = bucketPercent(p);
+
+  // If a PERFECT key is missing, degrade to HIGH for that axis.
+  if (dk === "PERFECT" && !PROFILE_MESSAGES[`PERFECT_DRUG_${pk}_POKEMON`]) {
+    dk = "HIGH";
+  }
+  if (pk === "PERFECT" && !PROFILE_MESSAGES[`${dk}_DRUG_PERFECT_POKEMON`]) {
+    pk = "HIGH";
+  }
 
   const key = `${dk}_DRUG_${pk}_POKEMON`;
   const valid = PROFILE_MESSAGES[key] ? key : "MID_DRUG_MID_POKEMON";

@@ -6,9 +6,9 @@
     "generic_inn": "rivaroxaban",
     "drug_type": "small_molecule",
     "pubchem_cid": 6433119,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/6433119/SVG",
     "summary": "Rivaroxaban is a factor Xa inhibitor used to treat deep vein thrombosis (DVT) and pulmonary embolism (PE). It may also be used as thrombosis prophylaxis in specific situations. Direct inhibitor of factor Xa prevents thrombin generation.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 2,
@@ -17,9 +17,9 @@
     "generic_inn": "apixaban",
     "drug_type": "small_molecule",
     "pubchem_cid": 10182969,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/10182969/SVG",
     "summary": "Apixaban is an oral, direct, highly selective factor Xa (FXa) inhibitor for prevention and treatment of thromboembolic diseases. Approved for stroke prevention in atrial fibrillation and treatment of DVT/PE.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 3,
@@ -28,9 +28,9 @@
     "generic_inn": "ibuprofen",
     "drug_type": "small_molecule",
     "pubchem_cid": 3672,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/3672/SVG",
     "summary": "Ibuprofen is a nonselective COX inhibitor used for pain relief, fever reduction, and inflammation treatment. Available over-the-counter for mild to moderate pain management.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 4,
@@ -39,9 +39,9 @@
     "generic_inn": "azilsartan medoxomil",
     "drug_type": "small_molecule",
     "pubchem_cid": 135409642,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/135409642/SVG",
     "summary": "Azilsartan medoxomil is an angiotensin II receptor antagonist used for hypertension treatment. Prodrug that is hydrolyzed to active azilsartan for blood pressure control.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 5,
@@ -49,12 +49,12 @@
     "brand_display": "DETRALEX",
     "generic_inn": "diosmin and hesperidin (combination)",
     "drug_type": "phlebotropic_flavonoid",
-    "pubchem_cid": 5281613,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/5281613/SVG",
+    "pubchem_cid": null,
     "summary": "Detralex is a combination of flavonoids (diosmin and hesperidin) used to treat chronic venous insufficiency and hemorrhoids. Improves lymphatic drainage and reduces capillary permeability.",
     "aka": [
       "Diosmin/Hesperidin"
-    ]
+    ],
+    "structure_asset": "detralex.png"
   },
   {
     "id": 6,
@@ -63,24 +63,24 @@
     "generic_inn": "ademetionine (S-adenosyl-L-methionine)",
     "drug_type": "small_molecule",
     "pubchem_cid": 34755,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/34755/SVG",
     "summary": "Ademetionine is a naturally occurring compound that supports liver function and is used to treat intrahepatic cholestasis and liver disorders. Involved in methylation and transulfurization pathways.",
     "aka": [
       "Ademetionine"
-    ]
+    ],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 7,
     "brand": "Pentalgin",
     "brand_display": "PENTALGIN",
-    "generic_inn": "metamizole sodium (active component)",
+    "generic_inn": "paracetamol, naproxen, caffeine, drotaverine, pheniramine (combination)",
     "drug_type": "small_molecule",
-    "pubchem_cid": 522325,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/522325/SVG",
-    "summary": "Pentalgin is a combination analgesic containing metamizole (dipyrone), paracetamol, and other agents. Used for acute pain and fever management.",
+    "pubchem_cid": null,
+    "summary": "Pentalgin is a fixed-dose combination of paracetamol, naproxen, caffeine, drotaverine and pheniramine used as an analgesic, antipyretic and antispasmodic for various pain conditions.",
     "aka": [
-      "Paracetamol/Metamizole combination"
-    ]
+      "Paracetamol combination"
+    ],
+    "structure_asset": "pentalgin.png"
   },
   {
     "id": 8,
@@ -88,12 +88,12 @@
     "brand_display": "THERAFLU",
     "generic_inn": "combination of acetaminophen, pheniramine maleate, phenylephrine HCl",
     "drug_type": "small_molecule combination",
-    "pubchem_cid": 103003,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/103003/SVG",
+    "pubchem_cid": null,
     "summary": "Theraflu is an over-the-counter cold and flu symptom relief product containing acetaminophen (pain/fever), pheniramine (antihistamine), and phenylephrine (decongestant).",
     "aka": [
       "Acetaminophen/Pheniramine/Phenylephrine"
-    ]
+    ],
+    "structure_asset": "theraflu.png"
   },
   {
     "id": 9,
@@ -102,9 +102,9 @@
     "generic_inn": "emoxypine succinate",
     "drug_type": "small_molecule",
     "pubchem_cid": 122298,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/122298/SVG",
     "summary": "Mexidol (emoxypine succinate) is claimed to have antioxidant and neuroprotective properties. Used in Russia and Eastern Europe for various conditions despite limited clinical evidence.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 10,
@@ -113,9 +113,9 @@
     "generic_inn": "dapagliflozin",
     "drug_type": "small_molecule",
     "pubchem_cid": 9887712,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/9887712/SVG",
     "summary": "Dapagliflozin is an SGLT2 inhibitor used to treat type 2 diabetes, chronic kidney disease, and heart failure. Reduces glucose reabsorption in kidneys.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 11,
@@ -124,9 +124,9 @@
     "generic_inn": "pembrolizumab",
     "drug_type": "monoclonal_antibody",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Pembrolizumab is a checkpoint inhibitor that blocks PD-1, allowing the immune system to recognize and destroy cancer cells. Used for multiple cancer types including melanoma, NSCLC, and others.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "antibodies.png"
   },
   {
     "id": 12,
@@ -135,9 +135,9 @@
     "generic_inn": "nivolumab",
     "drug_type": "monoclonal_antibody",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Nivolumab is an anti-PD-1 checkpoint inhibitor used to treat melanoma, lung cancer, renal cell carcinoma, and other cancers. Facilitates T cell activation by blocking inhibitory signals.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "antibodies.png"
   },
   {
     "id": 13,
@@ -146,9 +146,9 @@
     "generic_inn": "atezolizumab",
     "drug_type": "monoclonal_antibody",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Atezolizumab is a PD-L1 inhibitor used to treat urothelial carcinoma, NSCLC, and other cancers. Blocks interaction between PD-L1 and its receptors PD-1 and B7.1.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "antibodies.png"
   },
   {
     "id": 14,
@@ -157,9 +157,9 @@
     "generic_inn": "durvalumab",
     "drug_type": "monoclonal_antibody",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Durvalumab is a PD-L1 inhibitor indicated for locally advanced or metastatic urothelial carcinoma and NSCLC. Blocks PD-L1 without inducing antibody-dependent cell-mediated cytotoxicity.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "antibodies.png"
   },
   {
     "id": 15,
@@ -168,9 +168,9 @@
     "generic_inn": "avelumab",
     "drug_type": "monoclonal_antibody",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Avelumab targets PD-L1 for treatment of Merkel cell carcinoma, urothelial carcinoma, and renal cell carcinoma. First FDA-approved treatment for metastatic Merkel cell carcinoma.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "antibodies.png"
   },
   {
     "id": 16,
@@ -179,9 +179,9 @@
     "generic_inn": "ipilimumab",
     "drug_type": "monoclonal_antibody",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Ipilimumab is a CTLA-4 checkpoint inhibitor that blocks inhibitory signals on T cells. Used for melanoma and other cancers to enhance immune response.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "antibodies.png"
   },
   {
     "id": 17,
@@ -190,9 +190,9 @@
     "generic_inn": "trastuzumab",
     "drug_type": "monoclonal_antibody",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Trastuzumab is the first FDA-approved HER2-targeted therapeutic antibody for HER2-positive breast cancer. Blocks HER2 signaling and promotes cell death.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "antibodies.png"
   },
   {
     "id": 18,
@@ -201,9 +201,9 @@
     "generic_inn": "pertuzumab",
     "drug_type": "monoclonal_antibody",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Pertuzumab is a HER2 dimerization inhibitor used with trastuzumab for HER2-positive breast cancer. Prevents HER2 from pairing with other HER receptors.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "antibodies.png"
   },
   {
     "id": 19,
@@ -212,11 +212,11 @@
     "generic_inn": "ado-trastuzumab emtansine (T-DM1)",
     "drug_type": "antibody_drug_conjugate",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Kadcyla is an ADC combining trastuzumab with DM1 chemotherapy. Used for HER2-positive metastatic breast cancer that has progressed on trastuzumab-containing therapy.",
     "aka": [
       "Ado-trastuzumab Emtansine"
-    ]
+    ],
+    "structure_asset": "ADC.png"
   },
   {
     "id": 20,
@@ -225,11 +225,11 @@
     "generic_inn": "fam-trastuzumab deruxtecan-nxki",
     "drug_type": "antibody_drug_conjugate",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Enhertu is an ADC with improved efficacy for HER2-positive and HER2-low breast cancer. Contains a cleavable linker with topoisomerase I inhibitor payload.",
     "aka": [
       "Fam-trastuzumab Deruxtecan"
-    ]
+    ],
+    "structure_asset": "ADC.png"
   },
   {
     "id": 21,
@@ -238,9 +238,9 @@
     "generic_inn": "bevacizumab",
     "drug_type": "monoclonal_antibody",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Bevacizumab is the first FDA-approved anti-VEGF therapy. Blocks angiogenesis by inhibiting vascular endothelial growth factor A, used for colorectal, lung, and other cancers.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "antibodies.png"
   },
   {
     "id": 22,
@@ -249,9 +249,9 @@
     "generic_inn": "rituximab",
     "drug_type": "monoclonal_antibody",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Rituximab targets CD20 on B-lymphocytes, used for non-Hodgkin's lymphoma, chronic lymphocytic leukemia, and autoimmune diseases. Causes B-cell lysis via ADCC.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "antibodies.png"
   },
   {
     "id": 23,
@@ -260,9 +260,9 @@
     "generic_inn": "cetuximab",
     "drug_type": "monoclonal_antibody",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Cetuximab is a chimeric anti-EGFR antibody used for EGFR-expressing, RAS wild-type metastatic colorectal cancer and head/neck cancers. Blocks EGFR signaling and induces apoptosis.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "antibodies.png"
   },
   {
     "id": 24,
@@ -271,9 +271,9 @@
     "generic_inn": "panitumumab",
     "drug_type": "monoclonal_antibody",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Panitumumab is a fully human anti-EGFR antibody for EGFR-expressing metastatic colorectal cancer with wild-type KRAS/NRAS. First monoclonal antibody demonstrating KRAS as predictive biomarker.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "antibodies.png"
   },
   {
     "id": 25,
@@ -282,9 +282,9 @@
     "generic_inn": "daratumumab",
     "drug_type": "monoclonal_antibody",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Daratumumab is the first FDA-approved anti-CD38 monoclonal antibody for multiple myeloma. Induces apoptosis through Fc-mediated cross-linking and ADCC.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "antibodies.png"
   },
   {
     "id": 26,
@@ -293,9 +293,9 @@
     "generic_inn": "brentuximab vedotin",
     "drug_type": "antibody_drug_conjugate",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Adcetris is an ADC targeting CD30 for Hodgkin lymphoma and systemic ALCL. Combines anti-CD30 antibody with microtubule inhibitor payload via valine-citrulline linker.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "ADC.png"
   },
   {
     "id": 27,
@@ -304,9 +304,9 @@
     "generic_inn": "ibrutinib",
     "drug_type": "small_molecule",
     "pubchem_cid": 24821094,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/24821094/SVG",
     "summary": "Ibrutinib is a first-in-class Bruton's tyrosine kinase (BTK) inhibitor used for B-cell malignancies including CLL and mantle cell lymphoma. Irreversible covalent BTK inhibitor.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 28,
@@ -315,9 +315,9 @@
     "generic_inn": "palbociclib",
     "drug_type": "small_molecule",
     "pubchem_cid": 5330286,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/5330286/SVG",
     "summary": "Palbociclib is the first FDA-approved CDK4/6 inhibitor for hormone receptor-positive HER2-negative breast cancer. Selective inhibitor preventing cell cycle progression at G1/S checkpoint.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 29,
@@ -326,9 +326,9 @@
     "generic_inn": "osimertinib",
     "drug_type": "small_molecule",
     "pubchem_cid": 71496458,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/71496458/SVG",
     "summary": "Osimertinib is a third-generation EGFR-TKI for EGFR mutation-positive NSCLC including T790M resistance mutation. Irreversible inhibitor with superior CNS penetration.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 30,
@@ -337,9 +337,9 @@
     "generic_inn": "crizotinib",
     "drug_type": "small_molecule",
     "pubchem_cid": 11626560,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/11626560/SVG",
     "summary": "Crizotinib is a multi-targeted RTK inhibitor for ALK-positive and ROS1-positive NSCLC. Also inhibits c-Met, and used for ALK-positive ALCL and inflammatory myofibroblastic tumors.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 31,
@@ -348,9 +348,9 @@
     "generic_inn": "ceritinib",
     "drug_type": "small_molecule",
     "pubchem_cid": 57379345,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/57379345/SVG",
     "summary": "Ceritinib is a second-generation ALK inhibitor for crizotinib-resistant ALK-positive NSCLC. More potent than crizotinib with improved CNS penetration and broader activity spectrum.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 32,
@@ -359,9 +359,9 @@
     "generic_inn": "everolimus",
     "drug_type": "small_molecule",
     "pubchem_cid": 6442177,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/6442177/SVG",
     "summary": "Everolimus is an mTOR inhibitor used for renal cell carcinoma, pancreatic neuroendocrine tumors, and breast cancer. Immunosuppressant also used for organ transplant rejection prevention.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 33,
@@ -370,9 +370,9 @@
     "generic_inn": "sorafenib",
     "drug_type": "small_molecule",
     "pubchem_cid": 216239,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/216239/SVG",
     "summary": "Sorafenib is a multi-kinase inhibitor targeting VEGFR, PDGFR, BRAF, and other kinases. Used for hepatocellular carcinoma, renal cell carcinoma, and differentiated thyroid cancer.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 34,
@@ -381,9 +381,9 @@
     "generic_inn": "regorafenib",
     "drug_type": "small_molecule",
     "pubchem_cid": 11167602,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/11167602/SVG",
     "summary": "Regorafenib is an oral multi-kinase inhibitor for metastatic colorectal cancer, gastrointestinal stromal tumors, and hepatocellular carcinoma. Includes active metabolites M-2 and M-5.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 35,
@@ -392,9 +392,9 @@
     "generic_inn": "dasatinib",
     "drug_type": "small_molecule",
     "pubchem_cid": 3062316,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/3062316/SVG",
     "summary": "Dasatinib is a dual Abl and Src kinase inhibitor for imatinib-resistant/intolerant chronic myeloid leukemia and Philadelphia chromosome-positive acute lymphoblastic leukemia. 325-fold more potent than imatinib.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 36,
@@ -403,9 +403,9 @@
     "generic_inn": "nilotinib",
     "drug_type": "small_molecule",
     "pubchem_cid": 644241,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/644241/SVG",
     "summary": "Nilotinib is designed to overcome imatinib resistance in CML. Binds to inactive DFG-out conformation of BCR-ABL with higher selectivity than imatinib for some mutations.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 37,
@@ -414,9 +414,9 @@
     "generic_inn": "ruxolitinib",
     "drug_type": "small_molecule",
     "pubchem_cid": 25126798,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/25126798/SVG",
     "summary": "Ruxolitinib is a selective JAK1/JAK2 inhibitor for myelofibrosis. Inhibits dysregulated JAK signaling and provides symptom relief and survival benefits in myelofibrosis patients.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 38,
@@ -425,9 +425,9 @@
     "generic_inn": "pazopanib",
     "drug_type": "small_molecule",
     "pubchem_cid": 10113978,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/10113978/SVG",
     "summary": "Pazopanib is a multi-targeted TKI inhibiting VEGFR, PDGFR, c-Kit, and others. Used for advanced renal cell carcinoma and soft tissue sarcoma.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 39,
@@ -436,9 +436,9 @@
     "generic_inn": "docetaxel",
     "drug_type": "small_molecule",
     "pubchem_cid": 148124,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/148124/SVG",
     "summary": "Docetaxel is a taxane chemotherapy promoting microtubule assembly and stabilization. Used for various cancers including breast, lung, prostate, and gastric cancers.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 40,
@@ -447,9 +447,9 @@
     "generic_inn": "paclitaxel",
     "drug_type": "small_molecule",
     "pubchem_cid": 36314,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/36314/SVG",
     "summary": "Paclitaxel is a microtubule-stabilizing drug from Pacific yew for ovarian, breast, lung cancer, and Kaposi's sarcoma. Also available in albumin-bound formulation (nab-paclitaxel/Abraxane).",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 41,
@@ -458,11 +458,11 @@
     "generic_inn": "pemetrexed disodium",
     "drug_type": "small_molecule",
     "pubchem_cid": 135413520,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/135413520/SVG",
     "summary": "Pemetrexed is a multi-targeted antifolate inhibiting thymidylate synthase, DHFR, and GARFT. Used for NSCLC and mesothelioma with required folate/B12 supplementation.",
     "aka": [
       "Pemetrexed"
-    ]
+    ],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 42,
@@ -471,11 +471,11 @@
     "generic_inn": "gemcitabine HCl",
     "drug_type": "small_molecule",
     "pubchem_cid": 60749,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/60749/SVG",
     "summary": "Gemcitabine is a nucleoside analog causing masked DNA chain termination. Used for pancreatic cancer, NSCLC, bladder cancer, and breast cancer.",
     "aka": [
       "Gemcitabine"
-    ]
+    ],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 43,
@@ -484,9 +484,9 @@
     "generic_inn": "bortezomib",
     "drug_type": "small_molecule",
     "pubchem_cid": 387447,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/387447/SVG",
     "summary": "Bortezomib is the first FDA-approved proteasome inhibitor for multiple myeloma and mantle cell lymphoma. Reversibly binds and inhibits 26S proteasome catalytic core.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 44,
@@ -495,9 +495,9 @@
     "generic_inn": "lenalidomide",
     "drug_type": "small_molecule",
     "pubchem_cid": 216326,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/216326/SVG",
     "summary": "Lenalidomide is an immunomodulatory drug binding cereblon and promoting IKZF1/IKZF3 degradation. Used for multiple myeloma and other B-cell malignancies.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 45,
@@ -506,9 +506,9 @@
     "generic_inn": "enzalutamide",
     "drug_type": "small_molecule",
     "pubchem_cid": 15951529,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/15951529/SVG",
     "summary": "Enzalutamide is a potent androgen receptor antagonist blocking nuclear translocation, DNA binding, and coactivator mobilization. Used for metastatic and non-metastatic prostate cancer.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 46,
@@ -517,11 +517,11 @@
     "generic_inn": "abiraterone acetate",
     "drug_type": "small_molecule",
     "pubchem_cid": 9821849,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/9821849/SVG",
     "summary": "Abiraterone acetate is a CYP17 inhibitor blocking androgen biosynthesis in testicular, adrenal, and tumor tissues. Used for castration-resistant and castration-sensitive prostate cancer.",
     "aka": [
       "Abiraterone"
-    ]
+    ],
+    "structure_asset": "no_data.png"
   },
   {
     "id": 47,
@@ -530,11 +530,11 @@
     "generic_inn": "goserelin acetate",
     "drug_type": "peptide",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Goserelin is a GnRH agonist causing initial testosterone surge followed by suppression via pituitary downregulation. Used for prostate cancer and breast cancer in premenopausal women.",
     "aka": [
       "Goserelin"
-    ]
+    ],
+    "structure_asset": "goserelin.png"
   },
   {
     "id": 48,
@@ -542,10 +542,10 @@
     "brand_display": "SPINRAZA",
     "generic_inn": "nusinersen",
     "drug_type": "antisense_oligonucleotide",
-    "pubchem_cid": 131801471,
-    "structure_svg_url": null,
+    "pubchem_cid": null,
     "summary": "Nusinersen is an antisense oligonucleotide modifying SMN2 pre-RNA splicing to include exon 7. First FDA-approved disease-modifying therapy for spinal muscular atrophy (all types).",
-    "aka": []
+    "aka": [],
+    "structure_asset": "nusinersen.png"
   },
   {
     "id": 49,
@@ -554,11 +554,11 @@
     "generic_inn": "patisiran sodium",
     "drug_type": "small_interfering_RNA",
     "pubchem_cid": null,
-    "structure_svg_url": null,
     "summary": "Patisiran is the first FDA-approved RNAi drug for hereditary TTR amyloidosis polyneuropathy. Reduces TTR synthesis by ~80% through siRNA-mediated mRNA degradation.",
     "aka": [
       "Patisiran"
-    ]
+    ],
+    "structure_asset": "patisiran.png"
   },
   {
     "id": 50,
@@ -567,8 +567,8 @@
     "generic_inn": "olaparib",
     "drug_type": "small_molecule",
     "pubchem_cid": 23725625,
-    "structure_svg_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/23725625/SVG",
     "summary": "Olaparib is the first-in-class PARP inhibitor for BRCA-mutated cancers. Traps PARP on DNA causing replication fork collapse and double-strand breaks in HR-deficient cells.",
-    "aka": []
+    "aka": [],
+    "structure_asset": "no_data.png"
   }
 ]
